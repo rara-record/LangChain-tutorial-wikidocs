@@ -40,10 +40,21 @@ template = "{country}의 수도는 뭐야?"
 prompt = PromptTemplate.from_template(template=template)
 
 
-# 연결된 체인(Chain)객체 생성
+# 입력값
 input_list = [{"country": "호주"}, {"country": "중국"}, {"country": "네덜란드"}]
-llm_chain = LLMChain(prompt=prompt, llm=llm)
-result = llm_chain.apply(input_list)
 
-for res in result:
- print(res["text"].strip())
+# 연결된 체인(Chain)객체 생성
+llm_chain = LLMChain(prompt=prompt, llm=llm)
+
+# input_list 에 대한 결과 반환 : generate 사용
+generated_result = llm_chain.generate (input_list)
+# 토큰 사용량 출력 
+print(generated_result.llm_output)
+
+# input_list 에 대한 결과 반환 : apply 사용
+# result = llm_chain.apply(input_list)
+# for res in result:
+#  print(res["text"].strip())
+
+
+
