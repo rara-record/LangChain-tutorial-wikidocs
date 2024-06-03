@@ -1,5 +1,4 @@
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
 from dotenv import load_dotenv
 import os
 
@@ -17,6 +16,11 @@ llm = ChatOpenAI(
     model_name="gpt-3.5-turbo",  # 모델명
 )
 
+
+
+#----------------------------------------------------------#
+from langchain.schema import HumanMessage
+
 # 질의내용
 question = "대한민국의 수도는 어디인가요?"
 
@@ -24,3 +28,18 @@ question = "대한민국의 수도는 어디인가요?"
 response = llm([HumanMessage(content=question)])
 
 print(f"[답변]: {response.content}")
+
+#----------------------------------------------------------#
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+
+# 질문 템플릿 형식 정의
+template = "{country}의 수도는 뭐야?"
+
+# 템플릿
+prompt = PromptTemplate.from_template(template=template)
+print(prompt)
+
+# 연결된 체인(Chain)객체 생성
+llm_chain = LLMChain(prompt=prompt, llm=llm)
+print(llm_chain.invoke({"country": "대한민국"}))
