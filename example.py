@@ -27,7 +27,7 @@ question = "대한민국의 수도는 어디인가요?"
 # 질의
 response = llm([HumanMessage(content=question)])
 
-print(f"[답변]: {response.content}")
+print(f"[답변]: response: {response.content}")
 
 #----------------------------------------------------------#
 from langchain.prompts import PromptTemplate
@@ -38,8 +38,12 @@ template = "{country}의 수도는 뭐야?"
 
 # 템플릿
 prompt = PromptTemplate.from_template(template=template)
-print(prompt)
+
 
 # 연결된 체인(Chain)객체 생성
+input_list = [{"country": "호주"}, {"country": "중국"}, {"country": "네덜란드"}]
 llm_chain = LLMChain(prompt=prompt, llm=llm)
-print(llm_chain.invoke({"country": "대한민국"}))
+result = llm_chain.apply(input_list)
+
+for res in result:
+ print(res["text"].strip())
